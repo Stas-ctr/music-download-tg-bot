@@ -20,6 +20,10 @@ jobs:
           script: |
             cd ~/music-bot
             git pull origin master
-            sed -i 's|^PROXY_URL=.*|PROXY_URL=http://8.219.97.57:80|' bot/.env
+            if grep -q '^PROXY_URL=' bot/.env; then
+              sed -i 's|^PROXY_URL=.*|PROXY_URL=http://8.219.97.57:80|' bot/.env
+            else
+              echo 'PROXY_URL=http://8.219.97.57:80' >> bot/.env
+            fi
             docker-compose down
             docker-compose up -d --build
