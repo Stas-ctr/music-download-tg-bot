@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     BOT_TOKEN: str
     DATABASE_URL: str
     PROXY_URL: str | None = None
-    TELEGRAM_API_URL: str | None = None
+    TELEGRAM_API_URL: str = "https://api.telegram.org"
     REDIS_URL: str = "redis://localhost:6379/0"
     RATE_LIMIT: int = 5
     RATE_LIMIT_WINDOW: int = 60

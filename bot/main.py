@@ -80,7 +80,7 @@ async def main():
         bot_session = AiohttpSession(timeout=120)
         bot_session._connector_init["family"] = socket.AF_INET
 
-    bot = Bot(token=settings.BOT_TOKEN, session=bot_session, base_url=settings.TELEGRAM_API_URL or "https://api.telegram.org")
+    bot = Bot(token=settings.BOT_TOKEN, session=bot_session, base_url=settings.TELEGRAM_API_URL)
     dp = Dispatcher()
 
     dp.update.middleware(LoggingMiddleware())

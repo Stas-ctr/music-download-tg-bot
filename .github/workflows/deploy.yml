@@ -20,7 +20,7 @@ jobs:
           script: |
             cd ~/music-bot
             git pull origin master
-            curl -s --max-time 5 https://tg-proxy.syperstad.workers.dev/bot/test/getMe && echo "WORKER OK" || echo "WORKER FAIL"
             sed -i 's|^PROXY_URL=.*|PROXY_URL=|' bot/.env
+            sed -i 's|^TELEGRAM_API_URL=.*|TELEGRAM_API_URL=https://tg-proxy.syperstad.workers.dev|' bot/.env || echo 'TELEGRAM_API_URL=https://tg-proxy.syperstad.workers.dev' >> bot/.env
             docker-compose down
             docker-compose up -d --build
