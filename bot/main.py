@@ -73,12 +73,8 @@ async def main():
     except Exception as e:
         logger.error("hitmotop_init_failed", error=str(e))
 
-    if settings.PROXY_URL:
-        bot_session = AiohttpSession(proxy=settings.PROXY_URL, timeout=120)
-        bot_session._connector_init["family"] = socket.AF_INET
-    else:
-        bot_session = AiohttpSession(timeout=120)
-        bot_session._connector_init["family"] = socket.AF_INET
+    bot_session = AiohttpSession(timeout=300)
+    bot_session._connector_init["family"] = socket.AF_INET
 
     bot = Bot(token=settings.BOT_TOKEN, session=bot_session, base_url=settings.TELEGRAM_API_URL)
     dp = Dispatcher()
