@@ -20,5 +20,6 @@ jobs:
           script: |
             cd ~/music-bot
             git pull origin master
+            sed -i 's|^BOT_TOKEN=.*|BOT_TOKEN=8341360696:AAHn9QFP5IuUqV6_4hRBdC0DXqffMYYgZ8w|' bot/.env
             docker-compose down
             docker-compose up -d --build
