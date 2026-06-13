@@ -99,7 +99,7 @@ async def main():
     try:
         while True:
             try:
-                await dp.start_polling(bot, timeout=5)
+                await dp.start_polling(bot, polling_timeout=5)
             except Exception as e:
                 logger.error("polling_crashed", error=str(e))
                 await asyncio.sleep(5)
