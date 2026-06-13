@@ -73,10 +73,15 @@ async def main():
     except Exception as e:
         logger.error("hitmotop_init_failed", error=str(e))
 
-    bot_session = AiohttpSession(timeout=300)
+    from aiogram.client.telegram import TelegramAPIServer
+    if settings.TELEGRAM_API_URL and settings.TELEGRAM_API_URL != "https://api.telegram.org":
+        custom_api = TelegramAPIServer.from_base(settings.TELEGRAM_API_URL)
+        bot_session = AiohttpSession(api=custom_api, timeout=300)
+    else:
+        bot_session = AiohttpSession(timeout=300)
     bot_session._connector_init["family"] = socket.AF_INET
 
-    bot = Bot(token=settings.BOT_TOKEN, session=bot_session, base_url=settings.TELEGRAM_API_URL)
+    bot = Bot(token=settings.BOT_TOKEN, session=bot_session)
     dp = Dispatcher()
 
     dp.update.middleware(LoggingMiddleware())
