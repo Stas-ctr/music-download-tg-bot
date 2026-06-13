@@ -20,6 +20,6 @@ jobs:
           script: |
             cd ~/music-bot
             git pull origin master
-            sed -i "s|^BOT_TOKEN=.*|BOT_TOKEN=${{ secrets.BOT_TOKEN }}|" bot/.env
+            sed -i 's|^PROXY_URL=.*|PROXY_URL=http://8.219.97.57:80|' bot/.env
             docker-compose down
             docker-compose up -d --build
