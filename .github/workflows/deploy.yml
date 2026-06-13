@@ -21,5 +21,10 @@ jobs:
             cd ~/music-bot
             git pull origin master
             sed -i 's|^PROXY_URL=.*|PROXY_URL=|' bot/.env
+            if grep -q '^TELEGRAM_API_URL=' bot/.env; then
+              sed -i 's|^TELEGRAM_API_URL=.*|TELEGRAM_API_URL=https://tg-proxy.syperstad.workers.dev|' bot/.env
+            else
+              echo 'TELEGRAM_API_URL=https://tg-proxy.syperstad.workers.dev' >> bot/.env
+            fi
             docker-compose down
             docker-compose up -d --build

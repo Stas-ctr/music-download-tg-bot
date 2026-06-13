@@ -1,4 +1,5 @@
 import asyncio
+import socket
 import aiohttp
 
 from aiogram import Bot, Dispatcher, BaseMiddleware
@@ -58,7 +59,7 @@ async def main():
         "Referer": "https://rus.hitmotop.com/",
         "Connection": "keep-alive",
     }
-    connector = aiohttp.TCPConnector(limit=10, ttl_dns_cache=300, enable_cleanup_closed=True)
+    connector = aiohttp.TCPConnector(limit=10, ttl_dns_cache=300, enable_cleanup_closed=True, family=socket.AF_INET)
     hitmotop_session = aiohttp.ClientSession(
         headers=hitmotop_headers, connector=connector,
         proxy=settings.PROXY_URL,
@@ -73,11 +74,13 @@ async def main():
         logger.error("hitmotop_init_failed", error=str(e))
 
     if settings.PROXY_URL:
-        bot_session = AiohttpSession(timeout=120)
+        bot_session = AiohttpSession(proxy=settings.PROXY_URL, timeout=120)
+        bot_session._connector_init["family"] = socket.AF_INET
     else:
         bot_session = AiohttpSession(timeout=120)
+        bot_session._connector_init["family"] = socket.AF_INET
 
-    bot = Bot(token=settings.BOT_TOKEN, session=bot_session)
+    bot = Bot(token=settings.BOT_TOKEN, session=bot_session, base_url=settings.TELEGRAM_API_URL or "https://api.telegram.org")
     dp = Dispatcher()
 
     dp.update.middleware(LoggingMiddleware())
